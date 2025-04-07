@@ -94,7 +94,7 @@ def change_direction(new_direction):
             if direction != "up":
                 direction = new_direction      
                  
-def check_collisions(snake):
+def check_collisions(snake): 
     x, y = snake.coordinates[0]
     
     if x < 0 or x >= GAME_WIDTH:
@@ -107,10 +107,38 @@ def check_collisions(snake):
             return True
     return False
 
-def game_over():
+
+def restart_game():
+    global snake, food, direction, score, replay_button
+    
+    replay_button.destroy()
+    
+    score = 0
+    direction = 'down'
+    label.config(text="Score:{}".format(score))
+    
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-                       font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
+    
+    snake = Snake()
+    food = Food()
+    
+    next_turn(snake, food)
+    
+def game_over():
+    global replay_button
+    
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, 
+                       canvas.winfo_height()/5,
+                       font=('consolas', 70), 
+                       text="GAME OVER", 
+                       fill="red", 
+                       tag="gameover"
+                    )
+    replay_button = Button(window, text="Play Again?", font=('consolas', 20),command = restart_game)
+    canvas.create_window(canvas.winfo_width()/2, canvas.winfo_height()/2, window=replay_button)
+
+    
 
 #NOTE: Tk is the main window object from the tkinter library, used to create GUI applications.
 window = Tk()
