@@ -1,5 +1,8 @@
 from tkinter import *
 import random
+import pygame
+
+
 
 GAME_WIDTH = 700
 GAME_HEIGHT = 700
@@ -123,9 +126,12 @@ def restart_game():
     food = Food()
     
     next_turn(snake, food)
-    
+pygame.mixer.init()
 def game_over():
     global replay_button
+    
+    pygame.mixer.music.load('gameover-sound.mp3')
+    pygame.mixer.music.play()
     
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, 
