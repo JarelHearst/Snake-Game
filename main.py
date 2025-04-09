@@ -1,7 +1,7 @@
 from tkinter import *
 import random
 import pygame
-
+pygame.mixer.init()
 
 
 GAME_WIDTH = 700
@@ -68,6 +68,8 @@ def next_turn(snake, food):
         score += 1
         label.config(text="Score:{}".format(score))
         canvas.delete("food")
+        pygame.mixer.music.load('food-ate.mp3')
+        pygame.mixer.music.play()
         food = Food()
     
     else:
@@ -126,7 +128,6 @@ def restart_game():
     food = Food()
     
     next_turn(snake, food)
-pygame.mixer.init()
 def game_over():
     global replay_button
     
@@ -141,8 +142,15 @@ def game_over():
                        fill="red", 
                        tag="gameover"
                     )
-    replay_button = Button(window, text="Play Again?", font=('consolas', 20),command = restart_game)
-    canvas.create_window(canvas.winfo_width()/2, canvas.winfo_height()/2, window=replay_button)
+    replay_button = Button(window, 
+                           text="Play Again?", 
+                           font=('consolas', 20),
+                           command = restart_game
+                    )
+    canvas.create_window(canvas.winfo_width()/2, 
+                         canvas.winfo_height()/2, 
+                         window=replay_button
+                    )
 
     
 
